@@ -1,5 +1,5 @@
 const express = require("express");
-const { Sequelize } = require("sequelize");
+const sequelize = require("./db");
 const app = express();
 const PORT = 3000;
 
@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
 
 const startProject = async () => {
   try {
-    await Sequelize.authenticate;
+    await sequelize.authenticate;
     console.log('Connection has been established successfully ✅');
     app.listen(PORT, () => {
       console.log(`App is running on port ${PORT}`);
