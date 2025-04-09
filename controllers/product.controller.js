@@ -21,8 +21,36 @@ const addProduct = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+}
+
+const getAllProducts = async (_, res)=>{
+  try {
+    const allProducts = await Product.findAll();
+    res.status(200).json({message: 'All Products', data: allProducts})
+  } catch (error) {
+    res.status(400).json({message: error.message});
+  }
+}
+
+const getProduct = async (req, res)=>{
+  try {
+    const id = req.query.id;
+    if(!id){
+      return res.status(400).json({message: "Id is not provided"});
+    }
+    const product = await Product.findOne({
+      where:{
+        id: id
+      }
+    })
+    res.status(200).json({data: product});
+  } catch (error) {
+    res.status(400).json({message: error.message});
+  }
+}
 
 module.exports = {
   addProduct,
+  getAllProducts,
+  getProduct
 };
