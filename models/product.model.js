@@ -1,4 +1,5 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model } = require("sequelize");
+const sequelize = require('../db/index.js');
 
 class Product extends Model {}
 
@@ -13,14 +14,25 @@ Product.init(
     price: DataTypes.FLOAT,
     description: DataTypes.STRING,
     image: DataTypes.STRING,
-    category: DataTypes.ENUM("electronics","jewelery","men's clothing","women's clothing"),
-    ratingRate: DataTypes.FLOAT,
-    ratingCount: DataTypes.INTEGER
+    category: DataTypes.ENUM(
+      "electronics",
+      "jewelery",
+      "men's clothing",
+      "women's clothing"
+    ),
+    ratingRate: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+    },
+    ratingCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     sequelize,
-    modelName: 'Product',
-  },
+    modelName: "Product",
+  }
 );
 
-module.exports = Product
+module.exports = Product;
