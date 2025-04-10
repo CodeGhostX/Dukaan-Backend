@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../db');
+const { DataTypes, Model } = require("sequelize");
+const sequelize = require("../db");
 
 class User extends Model {}
 
@@ -16,18 +16,18 @@ User.init(
     },
     email: {
       type: DataTypes.STRING,
-      unique: true
+      unique: true,
     },
     password: DataTypes.STRING,
     refreshToken: {
       type: DataTypes.STRING,
-      defaultValue: ""
-    }
+      defaultValue: "",
+    },
   },
   {
     sequelize,
-    modelName: 'User',
-  },
+    modelName: "User",
+  }
 );
 
 module.exports = User;

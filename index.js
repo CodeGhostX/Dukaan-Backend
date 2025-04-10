@@ -1,36 +1,43 @@
 const express = require("express");
 const sequelize = require("./db");
 const app = express();
-const PORT = 3000;
+const cookieParser = require("cookie-parser");
+const cors = require('cors');
+const { initSocket } = require("./utils/socket.js");
 const productRoutes = require("./routes/product.route.js");
 const userRoutes = require("./routes/auth.route.js");
-const cookieParser = require('cookie-parser');
+
+const http = require("http");
+const server = http.createServer(app);
+
+const io = initSocket(server);
+
+// io.emit("test", "Test is Successful");
 
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/product", productRoutes);
 app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("test");
+  res.send("test is passed");
 });
 
 try {
   const setUpDB = async () => {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully ✅");
+    console.log("DB connection successful ✅");
     await sequelize.sync();
-    console.log("All Models Synced");
+    console.log("All models synced");
   };
   setUpDB();
-  app.listen(PORT, () => {
-    console.log(`App is running on port ${PORT}`);
+
+  server.listen(3000, "0.0.0.0", () => {
+    console.log("Server started on port 3000");
   });
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
+} catch (err) {
+  console.error("DB connection failed:", err);
 }
